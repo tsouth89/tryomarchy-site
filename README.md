@@ -5,26 +5,9 @@ Static HTML, no build step, no JS, no trackers.
 
 ## Deployed
 
-Live at https://tryomarchy.pages.dev (production). Cloudflare Pages project:
-`tryomarchy` (direct upload, not git-connected). To ship an update:
-
-```bash
-wrangler pages deploy . --project-name=tryomarchy --branch=main
-```
-
-Custom domains `tryomarchy.com` and `www.tryomarchy.com` are attached to the
-Pages project; they finish activating once the DNS records below exist.
-
-## DNS (pending, needs dashboard)
-
-Zone `tryomarchy.com` is on Cloudflare. Neither the wrangler OAuth token nor
-the Toolport Cloudflare token can write DNS records, so these two were left to
-paste by hand (DNS > Records > Add record, both proxied):
-
-```
-CNAME @    tryomarchy.pages.dev
-CNAME www  tryomarchy.pages.dev
-```
+Live at https://tryomarchy.com (also on www). Cloudflare Pages project
+`tryomarchy`, git-connected to this repo on `main` — every push to main
+deploys automatically. Custom domains and certs are active.
 
 ## Assets still to add
 
