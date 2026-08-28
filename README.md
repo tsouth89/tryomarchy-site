@@ -3,28 +3,28 @@
 Landing page for [Try Omarchy for Windows](https://github.com/tsouth89/try-omarchy-windows).
 Static HTML, no build step, no JS, no trackers.
 
-## Deploy (Cloudflare Pages)
+## Deployed
 
-1. Cloudflare dashboard > Workers & Pages > Create > Pages > Connect to Git
-2. Pick this repo (`tsouth89/tryomarchy-site`), branch `main`
-3. Build settings: framework preset **None**, build command **(empty)**, output directory **/**
-4. Project name: `tryomarchy` (gives you `tryomarchy.pages.dev`)
+Live at https://tryomarchy.pages.dev (production). Cloudflare Pages project:
+`tryomarchy` (direct upload, not git-connected). To ship an update:
 
-## Custom domain
+```bash
+wrangler pages deploy . --project-name=tryomarchy --branch=main
+```
 
-If the tryomarchy.com zone is already on Cloudflare:
+Custom domains `tryomarchy.com` and `www.tryomarchy.com` are attached to the
+Pages project; they finish activating once the DNS records below exist.
 
-- Pages project > Custom domains > Set up a custom domain > `tryomarchy.com`
-- Cloudflare creates the needed records automatically
+## DNS (pending, needs dashboard)
 
-If the zone is somewhere else, either move DNS to Cloudflare (free plan, recommended), or point these records at Cloudflare:
+Zone `tryomarchy.com` is on Cloudflare. Neither the wrangler OAuth token nor
+the Toolport Cloudflare token can write DNS records, so these two were left to
+paste by hand (DNS > Records > Add record, both proxied):
 
 ```
 CNAME @    tryomarchy.pages.dev
 CNAME www  tryomarchy.pages.dev
 ```
-
-Apex CNAME flattening only works when the zone is on Cloudflare, so moving the zone is the clean path.
 
 ## Assets still to add
 
