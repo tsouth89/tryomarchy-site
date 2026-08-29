@@ -1,0 +1,3 @@
+/download https://github.com/tsouth89/try-omarchy-windows/releases/latest/download/TryOmarchy.exe 302
+/TryOmarchy.exe https://github.com/tsouth89/try-omarchy-windows/releases/latest/download/TryOmarchy.exe 302
+/bootstrap.ps1 https://raw.githubusercontent.com/tsouth89/try-omarchy-windows/master/scripts/bootstrap.ps1 302

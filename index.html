@@ -275,8 +275,9 @@
       <h1>Try Omarchy without installing it.</h1>
       <p class="lede">The full Omarchy Linux desktop, running in a window on your Windows 11 PC. No partitions touched, no dual boot, nothing to undo later. When you're done, you delete one file.</p>
       <div class="actions">
-        <a class="btn btn-primary" href="#try">Get started</a>
-        <a class="btn btn-ghost" href="https://github.com/tsouth89/try-omarchy-windows">View on GitHub</a>
+        <a class="btn btn-primary" href="/download">Download for Windows</a>
+        <a class="btn btn-ghost" href="#try">Setup guide</a>
+        <a class="btn btn-ghost" href="https://github.com/tsouth89/try-omarchy-windows">GitHub</a>
       </div>
       <p class="meta-line">windows 11 home &amp; pro &middot; free &middot; open source &middot; your disk stays untouched</p>
     </header>
@@ -318,12 +319,11 @@
 
     <section id="try">
       <h2 class="label">try it today</h2>
-      <p class="muted">This is a developer preview. There's no polished installer yet, so setup means pasting a few commands into PowerShell. If that's not your thing, the friendly version is coming. From an elevated PowerShell:</p>
-<pre><span class="p">&gt;</span> git clone https://github.com/tsouth89/try-omarchy-windows
-<span class="p">&gt;</span> cd try-omarchy-windows
-<span class="p">&gt;</span> powershell -ExecutionPolicy Bypass -File scripts\bootstrap.ps1
-<span class="p">&gt;</span> powershell -ExecutionPolicy Bypass -File scripts\launch-omarchy.ps1</pre>
-      <p class="note">First run downloads about 1.4 GB and may ask to restart once. Omarchy sets itself up, and after that every launch goes straight to the desktop. No sign-in screens, no console text.</p>
+      <p class="muted">This is a developer preview, so there are two steps. First, get your PC ready. This one-time setup switches on the virtualization Windows already includes, installs QEMU, and pulls the Omarchy image (about 1.4 GB). If it asks to restart, restart and run it once more. From a PowerShell run as Administrator:</p>
+<pre><span class="p">&gt;</span> irm https://tryomarchy.com/bootstrap.ps1 -OutFile bootstrap.ps1
+<span class="p">&gt;</span> powershell -ExecutionPolicy Bypass -File .\bootstrap.ps1</pre>
+      <p class="note">Then <a href="/download">download TryOmarchy.exe</a> (7 MB) and double-click it. Omarchy sets itself up, and after that every launch goes straight to the desktop. No sign-in screens, no console text.</p>
+      <p class="note">The app isn't signed yet, so SmartScreen may warn you. Click "More info", then "Run anyway". If you'd rather check the download first, the SHA256 is published <a href="https://github.com/tsouth89/try-omarchy-windows/releases/latest">next to it</a>.</p>
       <figure class="shot">
         <img src="/assets/first-run.png" alt="The Omarchy setup screen running inside the Try Omarchy window on Windows 11" loading="lazy">
         <figcaption class="caption">First run: Omarchy sets itself up. Every launch after this lands you straight on the desktop.</figcaption>
