@@ -150,43 +150,32 @@
       margin-top: 1.5rem;
     }
 
-    /* window frame / media slot */
+    /* media */
 
-    .frame {
+    .media {
       margin-top: 3.5rem;
       border: 1px solid var(--border);
       border-radius: 10px;
-      background: var(--panel);
       overflow: hidden;
+      background: var(--panel);
     }
 
-    .frame-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.55rem 0.9rem;
-      border-bottom: 1px solid var(--border);
-    }
+    .media video, .media img { display: block; width: 100%; height: auto; }
 
-    .frame-title {
-      font-family: var(--mono);
-      font-size: 0.8125rem;
-      color: var(--muted);
-    }
-
-    .frame-dots { display: flex; gap: 0.4rem; }
-    .frame-dots span { width: 0.55rem; height: 0.55rem; border-radius: 50%; background: var(--border); }
-
-    .frame-body {
-      font-family: var(--mono);
+    .caption {
       font-size: 0.875rem;
-      line-height: 1.9;
       color: var(--muted);
-      padding: 1.4rem 1.4rem 1.6rem;
-      overflow-x: auto;
+      margin-top: 0.75rem;
     }
-    .frame-body .ok { color: var(--green); }
-    .frame-body .cmd { color: var(--text); }
+
+    .shot { margin-top: 2rem; }
+    .shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
 
     /* sections */
 
@@ -292,24 +281,12 @@
       <p class="meta-line">windows 11 home &amp; pro &middot; free &middot; open source &middot; your disk stays untouched</p>
     </header>
 
-    <!--
-      Media slot: replace .frame-body content with the real capture when it exists,
-      e.g. <video src="/capture.mp4" autoplay muted loop playsinline></video>
-      (15-30s loop: theme switch, Super+Space menu, a screensaver kicking in)
-    -->
-    <div class="frame" role="img" aria-label="Stylized preview of the Try Omarchy window booting to the desktop">
-      <div class="frame-bar">
-        <span class="frame-title">Try Omarchy</span>
-        <div class="frame-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-      </div>
-      <div class="frame-body">
-<span class="cmd">&gt; .\launch-omarchy.ps1</span><br>
-hypervisor&nbsp;&nbsp;&nbsp;&nbsp;<span class="ok">ok</span><br>
-graphics&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="ok">your gpu</span><br>
-omarchy 4.0.1&nbsp;&nbsp;<span class="ok">booting</span> ...<br>
-<span class="ok">desktop ready</span>
-      </div>
-    </div>
+    <figure class="media">
+      <video autoplay muted loop playsinline preload="auto" poster="/assets/poster-first-boot.jpg" aria-label="Screen recording of the Omarchy desktop running in a window on Windows 11">
+        <source src="/assets/try-omarchy-loop.mp4" type="video/mp4">
+      </video>
+    </figure>
+    <p class="caption">The real thing, on Windows 11: the Omarchy menu, the welcome screen, the screensavers. All of it running live in the Try Omarchy window.</p>
 
     <section>
       <h2 class="label">why try it here</h2>
@@ -320,11 +297,11 @@ omarchy 4.0.1&nbsp;&nbsp;<span class="ok">booting</span> ...<br>
         </div>
         <div>
           <h3>It's the real thing</h3>
-          <p>This is the full Omarchy desktop, not a video or a demo. Every theme, every screensaver, the whole experience, running live on your machine.</p>
+          <p>This is the real Omarchy desktop, running on your machine. Every theme, every screensaver, the whole experience. Not a slideshow of someone else's screen.</p>
         </div>
         <div>
           <h3>It's fast</h3>
-          <p>It draws with your actual graphics card, so the desktop feels snappy and video plays smoothly. It boots to the desktop in seconds.</p>
+          <p>It draws with your actual graphics card, so the desktop feels quick and video plays smoothly. It boots straight to the desktop in seconds.</p>
         </div>
       </div>
     </section>
@@ -342,7 +319,11 @@ omarchy 4.0.1&nbsp;&nbsp;<span class="ok">booting</span> ...<br>
 <span class="p">&gt;</span> cd try-omarchy-windows
 <span class="p">&gt;</span> powershell -ExecutionPolicy Bypass -File scripts\bootstrap.ps1
 <span class="p">&gt;</span> powershell -ExecutionPolicy Bypass -File scripts\launch-omarchy.ps1</pre>
-      <p class="note">First run downloads about 1.4 GB and may ask to restart once. The first boot walks you through Omarchy's setup form; after that, every launch goes straight to the desktop. No sign-in screens, no console text.</p>
+      <p class="note">First run downloads about 1.4 GB and may ask to restart once. Omarchy sets itself up, and after that every launch goes straight to the desktop. No sign-in screens, no console text.</p>
+      <figure class="shot">
+        <img src="/assets/first-run.png" alt="The Omarchy setup screen running inside the Try Omarchy window on Windows 11" loading="lazy">
+        <figcaption class="caption">First run: Omarchy sets itself up. Every launch after this lands you straight on the desktop.</figcaption>
+      </figure>
       <p class="note">For graphics acceleration, install <a href="https://github.com/cmspam/winq-emu/releases">WINQ-EMU</a> first and the launcher will pick it up automatically. Without it, everything still works, just rendered on the CPU.</p>
     </section>
 
