@@ -167,7 +167,7 @@
 
     .media video, .media img { display: block; width: 100%; height: auto; }
 
-    .zoomed {
+    .media.zoomed, .shot.zoomed {
       position: fixed;
       inset: 0;
       z-index: 50;
@@ -182,9 +182,9 @@
       justify-content: center;
       cursor: zoom-out;
     }
-    .zoomed video, .zoomed img { width: auto; max-width: 96vw; max-height: 92vh; }
-    .zoomed img { border: 0; border-radius: 0; }
-    .zoomed figcaption { display: none; }
+    .media.zoomed video, .shot.zoomed img { width: auto; max-width: 96vw; max-height: 92vh; }
+    .shot.zoomed img { border: 0; border-radius: 0; }
+    .shot.zoomed figcaption { display: none; }
 
     .vbtn {
       position: absolute;
