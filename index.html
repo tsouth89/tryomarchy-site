@@ -153,14 +153,57 @@
     /* media */
 
     .media {
+      position: relative;
       margin-top: 3.5rem;
       border: 1px solid var(--border);
       border-radius: 10px;
       overflow: hidden;
       background: var(--panel);
+      width: min(100vw - 3rem, 60rem);
+      margin-left: 50%;
+      transform: translateX(-50%);
+      cursor: zoom-in;
     }
 
     .media video, .media img { display: block; width: 100%; height: auto; }
+
+    .media.zoomed {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      width: auto;
+      margin: 0;
+      transform: none;
+      border: 0;
+      border-radius: 0;
+      background: rgba(10, 13, 17, 0.97);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+    .media.zoomed video { width: auto; max-width: 96vw; max-height: 92vh; }
+
+    .vbtn {
+      position: absolute;
+      font-family: var(--mono);
+      font-size: 0.8125rem;
+      color: var(--text);
+      background: rgba(14, 17, 22, 0.8);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.35rem 0.7rem;
+      cursor: pointer;
+    }
+    .vbtn:hover { border-color: var(--green); }
+    .vbtn-zoom { top: 0.75rem; right: 0.75rem; }
+    .vbtn-replay {
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.9375rem;
+      padding: 0.55rem 1.1rem;
+    }
 
     .caption {
       font-size: 0.875rem;
@@ -278,15 +321,17 @@
         <a class="btn btn-primary" href="/download">Download for Windows</a>
         <a class="btn btn-ghost" href="https://github.com/tsouth89/try-omarchy-windows">GitHub</a>
       </div>
-      <p class="meta-line">windows 11 home &amp; pro &middot; free &middot; open source &middot; your disk stays untouched</p>
+      <p class="meta-line">windows 11 home &amp; pro &middot; free &middot; open source &middot; your disk stays untouched &middot; on a mac? <a href="https://github.com/themartiano/try-omarchy">try-omarchy</a></p>
     </header>
 
-    <figure class="media">
-      <video autoplay muted loop playsinline preload="auto" poster="/assets/poster-first-boot.jpg" aria-label="Screen recording of the Omarchy desktop running in a window on Windows 11">
-        <source src="/assets/try-omarchy-loop.mp4" type="video/mp4">
+    <figure class="media" id="demo">
+      <video id="demo-video" autoplay muted playsinline preload="auto" poster="/assets/poster-hero.jpg" aria-label="Screen recording of the Omarchy desktop running in a window on Windows 11">
+        <source src="/assets/try-omarchy-hero.mp4" type="video/mp4">
       </video>
+      <button class="vbtn vbtn-zoom" id="demo-zoom" aria-label="Bigger view">&#10530;</button>
+      <button class="vbtn vbtn-replay" id="demo-replay" hidden>&#8635; replay</button>
     </figure>
-    <p class="caption">The real thing, on Windows 11: the Omarchy menu, the welcome screen, the screensavers. All of it running live in the Try Omarchy window.</p>
+    <p class="caption">The real thing, on Windows 11, in real time: the desktop, the system panel, the screensavers, all live in the Try Omarchy window. Click for a bigger view.</p>
 
     <section>
       <h2 class="label">why try it here</h2>
@@ -318,7 +363,7 @@
 
     <section id="try">
       <h2 class="label">try it today</h2>
-      <p class="muted"><a href="/download">Download TryOmarchy.exe</a> (8 MB) and open it. The first run sets everything up by itself: Windows asks permission to switch on the virtualization it already includes and restarts once, then the app pulls the graphics engine and the Omarchy image, about 1.5 GB in all. After that, every launch goes straight to the desktop. No commands, no sign-in screens, no console text.</p>
+      <p class="muted"><a href="/download">Download TryOmarchy.exe</a> (8 MB) and open it. The first run sets everything up by itself: Windows asks permission to switch on the virtualization it already includes and restarts once, then the app pulls the graphics engine and the Omarchy image, about 1.5 GB in all. Everything it needs comes with it, QEMU included - there's nothing else to install. After that, every launch goes straight to the desktop. No commands, no sign-in screens, no console text.</p>
       <figure class="shot">
         <img src="/assets/first-run.png" alt="The Omarchy setup screen running inside the Try Omarchy window on Windows 11" loading="lazy">
         <figcaption class="caption">First run: Omarchy sets itself up. Every launch after this lands you straight on the desktop.</figcaption>
@@ -363,6 +408,38 @@
     </footer>
 
   </div>
+
+  <script>
+    (function () {
+      var fig = document.getElementById('demo');
+      var vid = document.getElementById('demo-video');
+      var replay = document.getElementById('demo-replay');
+      var zoom = document.getElementById('demo-zoom');
+      vid.addEventListener('ended', function () { replay.hidden = false; });
+      replay.addEventListener('click', function (e) {
+        e.stopPropagation();
+        replay.hidden = true;
+        vid.currentTime = 0;
+        vid.play();
+      });
+      function setZoom(on) {
+        fig.classList.toggle('zoomed', on);
+        zoom.innerHTML = on ? '&times;' : '&#10530;';
+        zoom.setAttribute('aria-label', on ? 'Close bigger view' : 'Bigger view');
+        document.body.style.overflow = on ? 'hidden' : '';
+      }
+      zoom.addEventListener('click', function (e) {
+        e.stopPropagation();
+        setZoom(!fig.classList.contains('zoomed'));
+      });
+      fig.addEventListener('click', function () {
+        setZoom(!fig.classList.contains('zoomed'));
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') setZoom(false);
+      });
+    })();
+  </script>
 
 </body>
 </html>
