@@ -167,7 +167,7 @@
 
     .media video, .media img { display: block; width: 100%; height: auto; }
 
-    .media.zoomed {
+    .zoomed {
       position: fixed;
       inset: 0;
       z-index: 50;
@@ -182,7 +182,9 @@
       justify-content: center;
       cursor: zoom-out;
     }
-    .media.zoomed video { width: auto; max-width: 96vw; max-height: 92vh; }
+    .zoomed video, .zoomed img { width: auto; max-width: 96vw; max-height: 92vh; }
+    .zoomed img { border: 0; border-radius: 0; }
+    .zoomed figcaption { display: none; }
 
     .vbtn {
       position: absolute;
@@ -211,7 +213,14 @@
       margin-top: 0.75rem;
     }
 
-    .shot { margin-top: 2rem; }
+    .shot {
+      position: relative;
+      margin-top: 2rem;
+      width: min(100vw - 3rem, 60rem);
+      margin-left: 50%;
+      transform: translateX(-50%);
+      cursor: zoom-in;
+    }
     .shot img {
       display: block;
       width: 100%;
@@ -219,6 +228,7 @@
       border: 1px solid var(--border);
       border-radius: 8px;
     }
+    .shot figcaption { width: min(100%, 39rem); margin: 0.75rem auto 0; }
 
     /* sections */
 
@@ -366,6 +376,7 @@
       <p class="muted"><a href="/download">Download TryOmarchy.exe</a> (8 MB) and open it. The first run sets everything up by itself: Windows asks permission to switch on the virtualization it already includes and restarts once, then the app pulls the graphics engine and the Omarchy image, about 1.5 GB in all. Everything it needs comes with it, QEMU included - there's nothing else to install. After that, every launch goes straight to the desktop. No commands, no sign-in screens, no console text.</p>
       <figure class="shot">
         <img src="/assets/first-run.png" alt="The Omarchy setup screen running inside the Try Omarchy window on Windows 11" loading="lazy">
+        <button class="vbtn vbtn-zoom" aria-label="Bigger view">&#10530;</button>
         <figcaption class="caption">First run: Omarchy sets itself up. Every launch after this lands you straight on the desktop.</figcaption>
       </figure>
     </section>
@@ -411,32 +422,32 @@
 
   <script>
     (function () {
-      var fig = document.getElementById('demo');
+      var zoomedFig = null;
+      function setZoom(fig, on) {
+        fig.classList.toggle('zoomed', on);
+        var btn = fig.querySelector('.vbtn-zoom');
+        btn.innerHTML = on ? '&times;' : '&#10530;';
+        btn.setAttribute('aria-label', on ? 'Close bigger view' : 'Bigger view');
+        document.body.style.overflow = on ? 'hidden' : '';
+        zoomedFig = on ? fig : null;
+      }
+      document.querySelectorAll('.media, .shot').forEach(function (fig) {
+        fig.addEventListener('click', function (e) {
+          if (e.target.classList && e.target.classList.contains('vbtn-replay')) return;
+          setZoom(fig, !fig.classList.contains('zoomed'));
+        });
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && zoomedFig) setZoom(zoomedFig, false);
+      });
       var vid = document.getElementById('demo-video');
       var replay = document.getElementById('demo-replay');
-      var zoom = document.getElementById('demo-zoom');
       vid.addEventListener('ended', function () { replay.hidden = false; });
       replay.addEventListener('click', function (e) {
         e.stopPropagation();
         replay.hidden = true;
         vid.currentTime = 0;
         vid.play();
-      });
-      function setZoom(on) {
-        fig.classList.toggle('zoomed', on);
-        zoom.innerHTML = on ? '&times;' : '&#10530;';
-        zoom.setAttribute('aria-label', on ? 'Close bigger view' : 'Bigger view');
-        document.body.style.overflow = on ? 'hidden' : '';
-      }
-      zoom.addEventListener('click', function (e) {
-        e.stopPropagation();
-        setZoom(!fig.classList.contains('zoomed'));
-      });
-      fig.addEventListener('click', function () {
-        setZoom(!fig.classList.contains('zoomed'));
-      });
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape') setZoom(false);
       });
     })();
   </script>
