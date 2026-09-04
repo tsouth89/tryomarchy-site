@@ -1,6 +1,6 @@
 # tryomarchy.com
 
-Landing page for [Try Omarchy for Windows](https://github.com/tsouth89/try-omarchy-windows).
+Landing page for [Try Omarchy for Windows](https://github.com/omacom/try-omarchy-windows).
 Static HTML, no build step, no JS, no trackers.
 
 ## Deployed
